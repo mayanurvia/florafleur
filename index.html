@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora Fleur | Bunga Kawat Bulu Handmade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --pink-primary: #d68189;
+            --pink-light: #fce4ec;
+            --pink-bg: #fff5f7;
+            --brown-text: #5c4033;
+            --white: #ffffff;
+            --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--pink-bg);
+            color: #444;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. WELCOME SCREEN (HANYA DI AWAL) --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('background.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #welcome-screen h1 { font-size: 3.5rem; margin: 0; }
+        .btn-enter {
+            padding: 15px 40px; font-size: 18px; background: var(--pink-primary);
+            color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold;
+        }
+
+        /* --- 2. MAIN CONTENT WRAPPER --- */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        header {
+            background: var(--white); padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo img { height: 50px; }
+        nav ul { list-style: none; display: flex; gap: 10px; margin: 0; padding: 0; }
+        .nav-btn {
+            text-decoration: none; padding: 10px 18px; border-radius: 25px;
+            font-weight: 600; font-size: 13px; cursor: pointer; border: none;
+        }
+        .btn-light { background: var(--pink-light); color: var(--pink-primary); }
+        .btn-primary { background: var(--pink-primary); color: white; }
+
+        /* TOMBOL KEMBALI */
+        .btn-back {
+            background: none; border: 2px solid var(--pink-primary); color: var(--pink-primary);
+            padding: 8px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; transition: 0.3s;
+        }
+        .btn-back:hover { background: var(--pink-primary); color: white; }
+
+        /* PAGE SYSTEM */
+        .page { display: none; animation: fadeIn 0.4s ease; min-height: 70vh; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* CONTENT STYLES */
+        .hero-section { background: var(--pink-light); padding: 80px 20px; text-align: center; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--pink-light); text-align: center; }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .price { background: var(--brown-text); color: white; padding: 5px 12px; border-radius: 10px; font-weight: bold; margin: 10px 0; display: inline-block; }
+
+        .form-box { background: white; padding: 30px; border-radius: 25px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--pink-light); border-radius: 12px; box-sizing: border-box; }
+        .btn-wa { background: #25d366; color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+        footer { text-align: center; padding: 40px 20px; background: var(--pink-light); margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <h1>Flora Fleur</h1>
+        <p>MEKAR SELAMANYA • HANDMADE</p>
+        <button class="btn-enter" onclick="enterApp()">Jelajahi Toko <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div id="main-content">
+        <header>
+            <div class="logo"><img src="logo bunga maya.png" alt="Logo"></div>
+            <nav>
+                <ul>
+                    <li><button onclick="changePage('home')" class="nav-btn btn-light">Beranda</button></li>
+                    <li><button onclick="changePage('catalog')" class="nav-btn btn-light">Koleksi</button></li>
+                    <li><button onclick="changePage('order')" class="nav-btn btn-primary">Pesan</button></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="home" class="page active-page">
+            <div class="container" style="text-align: center;">
+                <button class="btn-back" onclick="backToWelcome()"><i class="fas fa-arrow-left"></i> Kembali ke Awal</button>
+                <section class="hero-section" style="border-radius: 30px;">
+                    <h2 style="color: var(--brown-text); font-size: 2.5rem;">Selamat Datang di Flora Fleur</h2>
+                    <p style="max-width: 600px; margin: 20px auto; line-height: 1.8;">
+                        Kami menghadirkan berbagai jenis bunga cantik dari kawat bulu (pipe cleaner) yang tidak akan pernah layu. Dibuat spesial untuk kamu dan orang-orang tersayang.
+                    </p>
+                    <button onclick="changePage('catalog')" class="nav-btn btn-primary" style="padding: 12px 30px;">Lihat Katalog Produk</button>
+                </section>
+            </div>
+        </main>
+
+        <main id="catalog" class="page">
+            <div class="container">
+                <button class="btn-back" onclick="changePage('home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+                <h2 style="text-align: center; color: var(--brown-text); margin-bottom: 30px;">Koleksi Produk</h2>
+                <div class="product-grid">
+                    <div class="card"><img src="buketpink.jpeg"><div class="card-body"><div class="price">Rp 105.000</div><h3>Bouquet Premium</h3></div></div>
+                    <div class="card"><img src="matahari.jpeg"><div class="card-body"><div class="price">Rp 20.000</div><h3>Single Sunflower</h3></div></div>
+                    <div class="card"><img src="tulip.jpeg"><div class="card-body"><div class="price">Rp 15.000</div><h3>Tulip Series</h3></div></div>
+                    <div class="card"><img src="gantungankunci.jpeg"><div class="card-body"><div class="price">Rp 8.000</div><h3>Gantungan Kunci</h3></div></div>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <button onclick="changePage('order')" class="nav-btn btn-primary">Lanjut ke Pemesanan</button>
+                </div>
+            </div>
+        </main>
+
+        <main id="order" class="page">
+            <div class="container">
+                <button class="btn-back" onclick="changePage('catalog')"><i class="fas fa-arrow-left"></i> Kembali ke Katalog</button>
+                <div class="form-box">
+                    <h2 style="text-align: center; color: var(--pink-primary);">Formulir Pesanan</h2>
+                    <form id="orderForm">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Nama Anda" required>
+                        <label>Pilih Bunga</label>
+                        <select id="produk" required>
+                            <option value="">-- Pilih Produk --</option>
+                            <option value="Bouquet Premium">Bouquet Besar - 105rb</option>
+                            <option value="Sunflower">Sunflower - 20rb</option>
+                            <option value="Tulip">Tulip - 15rb</option>
+                            <option value="Gantungan Kunci">Gantungan Kunci - 8rb</option>
+                        </select>
+                        <label>Detail Pesanan</label>
+                        <input type="text" id="warna" placeholder="Contoh: Tulip Pink, Wrap Cream" required>
+                        <label>Alamat</label>
+                        <textarea id="alamat" rows="3" placeholder="Alamat lengkap..." required></textarea>
+                        <button type="button" class="btn-wa" onclick="kirimWA()"><i class="fab fa-whatsapp"></i> Pesan via WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p><strong>@florafleur_bouquet</strong></p>
+            <p>&copy; 2026 Flora Fleur. Handmade with Love.</p>
+        </footer>
+    </div>
+
+    <script>
+        function enterApp() {
+            document.getElementById('welcome-screen').style.transform = 'translateY(-100%)';
+            const main = document.getElementById('main-content');
+            main.style.display = 'block';
+            setTimeout(() => { main.style.opacity = '1'; }, 100);
+        }
+
+        function backToWelcome() {
+            const main = document.getElementById('main-content');
+            main.style.opacity = '0';
+            setTimeout(() => {
+                main.style.display = 'none';
+                document.getElementById('welcome-screen').style.transform = 'translateY(0)';
+            }, 500);
+        }
+
+        function changePage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+            window.scrollTo(0, 0);
+        }
+
+        function kirimWA() {
+            const nama = document.getElementById('nama').value;
+            const produk = document.getElementById('produk').value;
+            const warna = document.getElementById('warna').value;
+            const alamat = document.getElementById('alamat').value;
+            if(nama && produk && warna && alamat) {
+                const pesan = `Halo Flora Fleur!%0A%0A*PESANAN DARI WEBSITE*%0A------------------%0A*Nama:* ${nama}%0A*Produk:* ${produk}%0A*Detail:* ${warna}%0A*Alamat:* ${alamat}%0A------------------%0AMohon info totalnya ya Kak!`;
+                window.open(`https://wa.me/6281615518808?text=${pesan}`, '_blank');
+            } else { alert("Mohon lengkapi formulir!"); }
+        }
+    </script>
+</body>
+</html>
